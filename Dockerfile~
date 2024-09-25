@@ -1,19 +1,19 @@
-FROM golang:1.23
+FROM golang:1.23-alpine
 
 # Define o diretório de trabalho
-WORKDIR /go/src/app
+WORKDIR /app
 
-# Copia o arquivo .env para o contêiner
-COPY cmd/server/docs/.env ./
-
-# Copia os arquivos do projeto para o contêiner
+# Copia o arquivo .env e os arquivos do projeto para o contêiner
+COPY .env .
 COPY . .
+
+# Instala as dependências de compilação, compila o binário e remove as dependências
+RUN apk add --no-cache gcc musl-dev && \
+    go build -o main cmd/server/main.go && \
+    apk del gcc musl-dev
 
 # Expõe a porta da aplicação
 EXPOSE 8080
-
-# Compila o binário da aplicação
-RUN go build -o main cmd/server/main.go
 
 # Executa o binário
 CMD ["./main"]
