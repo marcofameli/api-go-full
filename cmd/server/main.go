@@ -3,13 +3,14 @@ package main
 import (
 	"api-go-full/configs"
 	_ "api-go-full/docs"
+	"api-go-full/internal/entity"
 	"api-go-full/internal/infra/db"
 	"api-go-full/internal/infra/webserver/handlers"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/jwtauth"
 	httpSwagger "github.com/swaggo/http-swagger"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
 	"net/http"
@@ -40,10 +41,16 @@ func main() {
 		log.Fatal("Erro ao carregar configuração", err)
 	}
 	// arrumei o dbConn para funcionar
-	dbConn, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
+	dbConn, err := gorm.Open(postgres.Open("host=db user=postgres password=admin dbname=teste port=5432 sslmode=disable"), &gorm.Config{})
 	if err != nil {
 		panic("ERRO AO CONECTAR NO BANCO DE DADOS" + err.Error())
 	}
+
+	err = dbConn.AutoMigrate(&entity.User{}, &entity.Product{}) // Certifique-se de ter as entidades corretas
+	if err != nil {
+		log.Fatal("Failed to migrate database: ", err)
+	}
+
 	productDB := db.NewProduct(dbConn)
 	productHandler := handlers.NewProductHandler(productDB)
 
