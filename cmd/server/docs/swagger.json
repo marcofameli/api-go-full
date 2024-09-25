@@ -1,0 +1,28 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API para gerenciamento de produtos",
+        "title": "API Go Full",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Marco Fameli",
+            "url": "http://www.swagger.io/support",
+            "email": "email@example.com"
+        },
+        "license": {
+            "name": "Teste",
+            "url": "http://www.swagger.io/support"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {},
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

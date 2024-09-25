@@ -1,0 +1,21 @@
+basePath: /
+host: localhost:8080
+info:
+  contact:
+    email: email@example.com
+    name: Marco Fameli
+    url: http://www.swagger.io/support
+  description: API para gerenciamento de produtos
+  license:
+    name: Teste
+    url: http://www.swagger.io/support
+  termsOfService: http://swagger.io/terms/
+  title: API Go Full
+  version: "1.0"
+paths: {}
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
