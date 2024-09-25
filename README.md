@@ -141,7 +141,3 @@ A documentação Swagger é gerada automaticamente. Para atualizar:
    ```
    swag init -g cmd/server/main.go
    ```
-
-
-
-Link do Projeto: [https://github.com/seu-usuario/api-go-full](https://github.com/seu-usuario/api-go-full)
