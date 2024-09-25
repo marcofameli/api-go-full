@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	_, err := configs.LoadConfig(".")
+	configs, err := configs.LoadConfig(".")
 	if err != nil {
 		log.Fatal("Erro ao carregar configuração", err)
 	}
@@ -25,6 +25,9 @@ func main() {
 	productDB := db.NewProduct(dbConn)
 	productHandler := handlers.NewProductHandler(productDB)
 
+	UserDB := db.NewUser(dbConn)
+	userHandler := handlers.NewUseHandler(UserDB, configs.TokenAuth, configs.JwtExpiresIn)
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Post("/products", productHandler.CreateProduct)
@@ -32,6 +35,10 @@ func main() {
 	r.Get("/products/{id}", productHandler.GetProduct)
 	r.Put("/products/{id}", productHandler.UpdateProduct)
 	r.Delete("/products/{id}", productHandler.DeleteProduct)
+
+	r.Post("/users", userHandler.Create)
+	r.Post("/users/generate_jwt", userHandler.GetJWT)
+
 	http.ListenAndServe(":8080", r)
 
 }
